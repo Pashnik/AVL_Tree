@@ -91,10 +91,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         int treeHeight = 0;
         int left;
         int right;
-        Node<T> nNode = node;
-        if (nNode != null) {
-            left = height(nNode.left);
-            right = height(nNode.right);
+        if (node != null) {
+            left = height(node.left);
+            right = height(node.right);
             if (left > right) treeHeight = left + 1;
             else treeHeight = right + 1;
         }
