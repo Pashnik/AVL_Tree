@@ -2,6 +2,9 @@ import java.util.*;
 
 public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
+    private Node<T> root = null;
+    private int size = 0;
+
     /*
     Если показатель балансировки равен 0, то поддеревья вершины равны
     Если он равен -1, то вершина утяжелена слева (левое поддерево больше правого на 1)
@@ -19,9 +22,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             this.balance = balance;
         }
     }
-
-    private Node<T> root = null;
-    private int size = 0;
 
     /*
     Нахождения родителя заданного узла
@@ -50,6 +50,10 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
         return parent;
     }
+
+    /*
+    Добавление узла в дерево
+     */
 
     public boolean add(T t) {
         Node<T> findNode = find(t);
@@ -154,12 +158,26 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return null;
     }
 
+    /*
+    Возвращение минимального элемента
+     */
     public T first() {
-        return null;
+        Node<T> node = root;
+        if (node == null) throw new NoSuchElementException();
+        while (node.left != null)
+            node = node.left;
+        return node.value;
     }
 
+    /*
+   Возвращение максимального элемента
+    */
     public T last() {
-        return null;
+        Node<T> node = root;
+        if (node == null) throw new NoSuchElementException();
+        while (node.right != null)
+            node = node.right;
+        return node.value;
     }
 
     public int size() {
@@ -167,7 +185,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     public boolean isEmpty() {
-        return root != null;
+        return root == null;
     }
 
     public boolean contains(Object o) {
