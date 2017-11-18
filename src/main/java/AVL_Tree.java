@@ -53,6 +53,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
     public boolean add(T t) {
         Node<T> findNode = find(t);
+        Node<T> current;
         int comparison = findNode == null ? -1 : t.compareTo(findNode.value);
         if (comparison == 0) {
             return false;
@@ -67,7 +68,15 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             assert findNode.right == null;
             findNode.right = newNode;
         }
-
+        current = getParent(findNode);
+        while (current != root) {
+            getBalance(current);
+            if (Math.abs(current.balance) > 1) {
+                restructuring(current);
+                break;
+            }
+            current = getParent(current);
+        }
         return true;
     }
 
@@ -97,6 +106,13 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         int left_height = height(node.left);
         int right_height = height(node.right);
         node.balance = right_height - left_height;
+    }
+
+    /*
+    Балансировка
+     */
+
+    private void restructuring(Node<T> node) {
     }
 
     public boolean remove(Object o) {
