@@ -75,10 +75,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             }
             current = newNode;
             while (current != null) {
-                getBalance(current);
+                setBalance(current);
                 if (Math.abs(current.balance) > 1) {
-                    restructuring(current);
-                    break;
+                    restructuring(current, newNode);
                 }
                 current = getParent(current);
             }
@@ -88,7 +87,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     /*
-    Нахождение высоты заданной вершины
+    Нахождение высоты заданного узла
      */
 
     private int height(Node<T> node) {
@@ -108,7 +107,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     Вычисление показателя балансировки вершины
      */
 
-    private void getBalance(Node<T> node) {
+    private void setBalance(Node<T> node) {
         int left_height = height(node.left);
         int right_height = height(node.right);
         node.balance = right_height - left_height;
@@ -118,8 +117,72 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     Перестройка дерева
      */
 
-    private void restructuring(Node<T> node) {
-        System.out.println("Нужна перестройка");
+    private void restructuring(Node<T> node, Node<T> addedNode) {
+        Node<T> rightNode = node.right;
+        Node<T> leftNode = node.left;
+        SubTreesAndSons son = SubTreesAndSons.LEFT_SON;
+        SubTreesAndSons subTree = SubTreesAndSons.LEFT_SUBTREE;
+
+        /*
+        Определяем сына и поодерево
+         */
+
+        if (node.value.compareTo(addedNode.value) < 0) {
+            son = SubTreesAndSons.RIGHT_SON;
+            if (rightNode.value.compareTo(addedNode.value) < 0)
+                subTree = SubTreesAndSons.RIGHT_SUBTREE;
+        } else {
+            if (leftNode.value.compareTo(addedNode.value) < 0)
+                subTree = SubTreesAndSons.RIGHT_SUBTREE;
+        }
+
+        /*
+        Определяем случай
+         */
+
+        if (son == SubTreesAndSons.LEFT_SON) {
+            if (subTree == SubTreesAndSons.LEFT_SUBTREE) rotate_R(node);
+            else rotate_LR(node);
+        } else {
+            if (subTree == SubTreesAndSons.RIGHT_SUBTREE) rotate_L(node);
+            else rotate_RL(node);
+        }
+    }
+
+    /*
+    Повороты: Поворачиваем и пересчитываем показатели балансировки
+     */
+
+    private void rotate_R(Node<T> node) {
+        Node<T> left_Node = node.left;
+        node.left = left_Node.right;
+        left_Node.right = node;
+        setBalance(node);
+        setBalance(left_Node);
+    }
+
+    private void rotate_L(Node<T> node) {
+        Node<T> right_Node = node.right;
+        node.right = right_Node.left;
+        right_Node.left = node;
+        setBalance(node);
+        setBalance(right_Node);
+    }
+
+    private void rotate_LR(Node<T> node) {
+        rotate_L(node.left);
+        rotate_R(node);
+        setBalance(node);
+        setBalance(node.left);
+        setBalance(node.right);
+    }
+
+    private void rotate_RL(Node<T> node) {
+        rotate_R(node.right);
+        rotate_L(node);
+        setBalance(node);
+        setBalance(node.left);
+        setBalance(node.right);
     }
 
     public boolean remove(Object o) {
