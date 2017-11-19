@@ -7,12 +7,27 @@ import static org.junit.Assert.assertTrue;
 public class AVL_Tests {
     @Test
     public void add() {
-        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
+       /* AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
         avl_tree.add(5);
         avl_tree.add(6);
         avl_tree.add(4);
         avl_tree.add(3);
         avl_tree.add(2);
+        AVL_Tree<Integer> avl1 = new AVL_Tree<Integer>();
+        avl1.add(5);
+        avl1.add(4);
+        avl1.add(6);
+        avl1.add(7);
+        avl1.add(8);
+        */
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
+        avl_tree.add(6);
+        avl_tree.add(3);
+        avl_tree.add(4);
+        avl_tree.add(5);
+        avl_tree.add(2);
+        avl_tree.add(7);
+
     }
 
     @Test
