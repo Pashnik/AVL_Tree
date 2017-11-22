@@ -181,7 +181,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         Node<T> parent = getParent(node);
         rotate_L(node.left);
         rotate_R(node);
-        parent.left = getParent( node);
+        parent.left = getParent(node);
 
         setBalance(node);
         setBalance(getParent(node));
@@ -222,6 +222,45 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             if (start.right == null) return start;
             return find(start.right, value);
         }
+    }
+
+    public boolean isAVL() {
+        return root != null && checkBalance(root) && checkInvariant(root);
+    }
+
+    /*
+    Проверка показателя балансировки каждой вершины дерева (обход в прямом порядке)
+     */
+
+    private boolean checkBalance(Node<T> node) {
+        Stack<Node<T>> stack = new Stack<Node<T>>();
+        Node<T> intermediate;
+        Node<T> current = node;
+        stack.push(current);
+        while (!stack.isEmpty()) {
+            if (current.left != null) {
+                current = current.left;
+                stack.push(current);
+            } else {
+                intermediate = stack.pop();
+                if (Math.abs(intermediate.balance) > 1) return false;
+                if (intermediate.right != null)
+                    stack.push(intermediate.right);
+            }
+
+        }
+        return true;
+    }
+
+    /*
+    Проверка на бинарное дерево поиска
+     */
+
+    private boolean checkInvariant(Node<T> node) {
+        Node<T> left = node.left;
+        if (left != null && (left.value.compareTo(node.value) >= 0 || !checkInvariant(left))) return false;
+        Node<T> right = node.right;
+        return right == null || right.value.compareTo(node.value) > 0 && checkInvariant(right);
     }
 
 
