@@ -158,11 +158,17 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         Node<T> left_Node = node.left;
         node.left = left_Node.right;
         left_Node.right = node;
-        parent.left = left_Node;
+
+        if (parent != null) {
+            if (parent.value.compareTo(left_Node.value) > 0)
+                parent.left = left_Node;
+            else parent.right = left_Node;
+        } else {
+            root = left_Node;
+        }
 
         setBalance(node);
         setBalance(left_Node);
-        root = root;
     }
 
     private void rotate_L(Node<T> node) {
@@ -170,11 +176,17 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         Node<T> right_Node = node.right;
         node.right = right_Node.left;
         right_Node.left = node;
-        parent.right = right_Node;
+
+        if (parent != null) {
+            if (parent.value.compareTo(right_Node.value) > 0)
+                parent.left = right_Node;
+            else parent.right = right_Node;
+        } else {
+            root = right_Node;
+        }
 
         setBalance(node);
         setBalance(right_Node);
-        root = root;
     }
 
     private void rotate_LR(Node<T> node) {
@@ -182,23 +194,13 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         rotate_L(node.left);
         rotate_R(node);
         parent.left = getParent(node);
-
-        setBalance(node);
-        setBalance(getParent(node));
-        setBalance(getParent(node).left);
-        root = root;
     }
 
     private void rotate_RL(Node<T> node) {
         Node<T> parent = getParent(node);
         rotate_R(node.right);
         rotate_L(node);
-        parent.right = getParent(node);
-
-        setBalance(node);
-        setBalance(getParent(node));
-        setBalance(getParent(node).right);
-        root = root;
+        parent.left = getParent(node);
     }
 
     public boolean remove(Object o) {
