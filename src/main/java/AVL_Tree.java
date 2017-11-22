@@ -204,6 +204,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     public boolean remove(Object o) {
+        /*
+        TODO()
+         */
         return false;
     }
 
@@ -309,11 +312,56 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     public boolean contains(Object o) {
-        return false;
+        @SuppressWarnings("unchecked")
+        T t = (T) o;
+        Node<T> findNode = find(t);
+        return findNode != null && t.compareTo(findNode.value) == 0;
+    }
+
+    public class AVLTreeIterator implements Iterator<T> {
+        private Stack<Node<T>> treeNodes;
+        private Node<T> node;
+        private Node<T> currentNode;
+        private Node<T> stackNode;
+
+        private AVLTreeIterator() {
+            treeNodes = new Stack<Node<T>>();
+            node = root;
+            while (node != null) {
+                treeNodes.push(node);
+                node = node.left;
+            }
+        }
+
+        private Node<T> findNext() {
+            stackNode = treeNodes.pop();
+            if (stackNode.right != null) {
+                currentNode = stackNode.right;
+                while (currentNode != null) {
+                    treeNodes.push(currentNode);
+                    currentNode = currentNode.left;
+                }
+            }
+            return stackNode;
+        }
+
+        public boolean hasNext() {
+            return !treeNodes.isEmpty();
+        }
+
+        public T next() {
+            findNext();
+            if (stackNode == null) throw new NoSuchElementException();
+            return stackNode.value;
+        }
+
+        public void remove() {
+
+        }
     }
 
     public Iterator<T> iterator() {
-        return null;
+        return new AVLTreeIterator();
     }
 
     public Object[] toArray() {
