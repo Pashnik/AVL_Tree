@@ -5,10 +5,10 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     private Node<T> root = null;
     private int size = 0;
 
-    /*
-    Если показатель балансировки равен 0, то поддеревья вершины равны
-    Если он равен -1, то вершина утяжелена слева (левое поддерево больше правого на 1)
-    Если он равен 1, то вершина утяжелена справа (правое поддерево больше левого на 1)
+    /**
+     * Если показатель балансировки равен 0, то поддеревья вершины равны
+     * Если он равен -1, то вершина утяжелена слева (левое поддерево больше правого на 1)
+     * Если он равен 1, то вершина утяжелена справа (правое поддерево больше левого на 1)
      */
 
     private static class Node<T> {
@@ -30,7 +30,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     private Node<T> getParent(Node<T> child) {
         if (child == root) return null;
         Node<T> intermediateNode = root;
-        Node<T> parent = new Node<T>(null, 0);
+        Node<T> parent = new Node<>(null, 0);
         while (intermediateNode != null) {
             if (intermediateNode.left == child) {
                 parent = intermediateNode;
@@ -62,7 +62,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         if (comparison == 0) {
             return false;
         }
-        Node<T> newNode = new Node<T>(t, 0);
+        Node<T> newNode = new Node<>(t, 0);
         if (findNode == null)
             root = newNode;
         else {
@@ -149,8 +149,11 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
-    /*
-    Повороты: Поворачиваем и пересчитываем показатели балансировки
+    /**
+     * Добавление в ЛЕВОЕ поддерерво ЛЕВОГО сына опорного узла - rotate_R()
+     * Добавление в ПРАВОЕ поддерево ЛЕВОГО сына опорного узла - rotate_LR()
+     * Добавление в ЛЕВОЕ поддерево ПРАВОГО сына опорного узла - rotate_RL()
+     * Добавление в ПРАВОЕ поддерево ПРАВОГО поддерева сына опорного узла - rotate_L()
      */
 
     private void rotate_R(Node<T> node) {
@@ -176,7 +179,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         Node<T> right_Node = node.right;
         node.right = right_Node.left;
         right_Node.left = node;
-
         if (parent != null) {
             if (parent.value.compareTo(right_Node.value) > 0)
                 parent.left = right_Node;
@@ -184,7 +186,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         } else {
             root = right_Node;
         }
-
         setBalance(node);
         setBalance(right_Node);
     }
@@ -193,14 +194,22 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         Node<T> parent = getParent(node);
         rotate_L(node.left);
         rotate_R(node);
-        parent.left = getParent(node);
+        if (parent != null) {
+            if (parent.value.compareTo(getParent(node).value) > 0)
+                parent.left = getParent(node);
+            else parent.right = getParent(node);
+        }
     }
 
     private void rotate_RL(Node<T> node) {
         Node<T> parent = getParent(node);
         rotate_R(node.right);
         rotate_L(node);
-        parent.left = getParent(node);
+        if (parent != null) {
+            if (parent.value.compareTo(getParent(node).value) > 0)
+                parent.left = getParent(node);
+            else parent.right = getParent(node);
+        }
     }
 
     public boolean remove(Object o) {
@@ -238,7 +247,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
      */
 
     private boolean checkBalance(Node<T> node) {
-        Stack<Node<T>> stack = new Stack<Node<T>>();
+        Stack<Node<T>> stack = new Stack<>();
         Node<T> intermediate;
         Node<T> current = node;
         stack.push(current);
@@ -325,7 +334,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         private Node<T> stackNode;
 
         private AVLTreeIterator() {
-            treeNodes = new Stack<Node<T>>();
+            treeNodes = new Stack<>();
             node = root;
             while (node != null) {
                 treeNodes.push(node);
@@ -356,7 +365,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
 
         public void remove() {
-
         }
     }
 
@@ -373,11 +381,16 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object o : c)
+            if (!contains(o)) return false;
+        return true;
     }
 
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        for (T t : c) {
+            if (!add(t)) return false;
+        }
+        return true;
     }
 
     public boolean retainAll(Collection<?> c) {

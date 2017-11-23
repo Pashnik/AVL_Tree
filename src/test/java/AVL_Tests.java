@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -8,141 +11,99 @@ public class AVL_Tests {
 
     @Test
     public void add_rotate_R() {
-        AVL_Tree<Integer> integerAVL_tree = new AVL_Tree<Integer>();
-        integerAVL_tree.add(8);
-        integerAVL_tree.add(5);
-        integerAVL_tree.add(12);
-        integerAVL_tree.add(6);
-        integerAVL_tree.add(4);
-        integerAVL_tree.add(11);
-        integerAVL_tree.add(14);
-        integerAVL_tree.add(3);
-        integerAVL_tree.add(2);
+        List list = Arrays.asList(8, 5, 12, 6, 4, 11, 14, 3, 2);
+        AVL_Tree<Integer> integerAVL_tree = new AVL_Tree<>();
+        integerAVL_tree.addAll(list);
         assertTrue(integerAVL_tree.isAVL());
+        assertTrue(integerAVL_tree.containsAll(list));
+        assertEquals(9, integerAVL_tree.size());
 
-        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
-        avl_tree.add(5);
-        avl_tree.add(6);
-        avl_tree.add(4);
-        avl_tree.add(3);
-        avl_tree.add(2);
+        List list1 = Arrays.asList(5, 6, 4, 3, 2);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list1);
         assertTrue(avl_tree.isAVL());
+        assertTrue(avl_tree.containsAll(list1));
 
-        AVL_Tree<Integer> avl_tree1 = new AVL_Tree<Integer>();
-        avl_tree1.add(6);
-        avl_tree1.add(7);
-        avl_tree1.add(5);
-        avl_tree1.add(3);
-        avl_tree1.add(2);
+        List list2 = Arrays.asList(6, 7, 5, 3, 2);
+        AVL_Tree<Integer> avl_tree1 = new AVL_Tree<>();
+        avl_tree1.addAll(list2);
         assertTrue(avl_tree1.isAVL());
+        assertTrue(avl_tree1.containsAll(list2));
 
 
-        AVL_Tree<Integer> avl_tree2 = new AVL_Tree<Integer>();
-        avl_tree2.add(8);
-        avl_tree2.add(12);
-        avl_tree2.add(5);
-        avl_tree2.add(4);
-        avl_tree2.add(6);
-        avl_tree2.add(3);
+        List list3 = Arrays.asList(8, 12, 5, 4, 6, 3);
+        AVL_Tree<Integer> avl_tree2 = new AVL_Tree<>();
+        avl_tree2.addAll(list3);
         assertTrue(avl_tree2.isAVL());
+        assertTrue(avl_tree2.containsAll(list3));
     }
 
     @Test
     public void add_rotate_L() {
-        AVL_Tree<Integer> integerAVL_tree = new AVL_Tree<Integer>();
-        integerAVL_tree.add(8);
-        integerAVL_tree.add(5);
-        integerAVL_tree.add(12);
-        integerAVL_tree.add(4);
-        integerAVL_tree.add(6);
-        integerAVL_tree.add(11);
-        integerAVL_tree.add(14);
-        integerAVL_tree.add(10);
-        integerAVL_tree.add(13);
-        integerAVL_tree.add(16);
-        integerAVL_tree.add(20);
+        List list = Arrays.asList(8, 5, 12, 4, 6, 11, 14, 10, 13, 16, 20);
+        AVL_Tree<Integer> integerAVL_tree = new AVL_Tree<>();
+        integerAVL_tree.addAll(list);
+        assertTrue(integerAVL_tree.containsAll(list));
+        assertEquals(11, integerAVL_tree.size());
         assertTrue(integerAVL_tree.isAVL());
 
-        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
-        avl_tree.add(5);
-        avl_tree.add(1);
-        avl_tree.add(6);
-        avl_tree.add(7);
-        avl_tree.add(8);
+        List list1 = Arrays.asList(5, 1, 6, 7, 8);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list1);
         assertTrue(avl_tree.isAVL());
+        assertTrue(avl_tree.containsAll(list1));
     }
 
     @Test
     public void add_rotate_LR() {
-        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
-        avl_tree.add(100);
-        avl_tree.add(60);
-        avl_tree.add(120);
-        avl_tree.add(50);
-        avl_tree.add(70);
-        avl_tree.add(115);
-        avl_tree.add(130);
-        avl_tree.add(65);
-        avl_tree.add(80);
-        avl_tree.add(110);
-        avl_tree.add(90);
+        List list = Arrays.asList(100, 60, 120, 50, 70, 115, 130, 65, 80, 110, 90);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list);
+        assertTrue(avl_tree.containsAll(list));
         assertTrue(avl_tree.isAVL());
+        assertEquals(11, avl_tree.size());
     }
 
     @Test
     public void add_rotate_RL() {
-        AVL_Tree<Integer> avlTree = new AVL_Tree<Integer>();
-        avlTree.add(40);
-        avlTree.add(30);
-        avlTree.add(60);
-        avlTree.add(55);
-        avlTree.add(32);
-        avlTree.add(25);
-        avlTree.add(65);
-        avlTree.add(24);
-        avlTree.add(31);
-        avlTree.add(57);
-        avlTree.add(62);
-        avlTree.add(70);
-        avlTree.add(56);
+        List list = Arrays.asList(40, 30, 60, 55, 32, 25, 65, 24, 31, 57, 62, 70, 56);
+        AVL_Tree<Integer> avlTree = new AVL_Tree<>();
+        avlTree.addAll(list);
         assertTrue(avlTree.isAVL());
+        assertTrue(avlTree.containsAll(list));
     }
 
     @Test
     public void add() {
-        AVL_Tree<Integer> avl_tree = new AVL_Tree<Integer>();
-        avl_tree.add(13);
-        avl_tree.add(14);
-        avl_tree.add(11);
-        avl_tree.add(12);
-        avl_tree.add(4);
-        avl_tree.add(3);
+        List returnList = Arrays.asList(13, 14, 11, 4, 3, 100, 45, 10, 15, 2, 6);
+        List list = Arrays.asList(100, 14, 11, 3, 4, 13);
+        List list1 = Arrays.asList(15, 45, 10, 6, 2);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list);
+        avl_tree.addAll(list1);
+        assertTrue(avl_tree.containsAll(returnList));
         assertTrue(avl_tree.isAVL());
     }
 
     @Test
     public void first() {
-        AVL_Tree<Integer> avlTree = new AVL_Tree<Integer>();
-        avlTree.add(70);
-        avlTree.add(100);
-        avlTree.add(10);
-        avlTree.add(120);
+        List list = Arrays.asList(70, 100, 10, 120);
+        AVL_Tree<Integer> avlTree = new AVL_Tree<>();
+        avlTree.addAll(list);
         assertEquals(10, avlTree.first().intValue());
     }
 
     @Test
     public void last() {
-        AVL_Tree<Integer> avlTree = new AVL_Tree<Integer>();
-        avlTree.add(70);
-        avlTree.add(100);
-        avlTree.add(10);
-        avlTree.add(120);
+        List list = Arrays.asList(70, 100, 10, 120);
+        AVL_Tree<Integer> avlTree = new AVL_Tree<>();
+        avlTree.addAll(list);
         assertEquals(120, avlTree.last().intValue());
     }
 
     @Test
     public void isEmpty() {
-        AVL_Tree<String> a = new AVL_Tree<String>();
+        AVL_Tree<String> a = new AVL_Tree<>();
         assertTrue(a.isEmpty());
         a.add("A");
         assertFalse(a.isEmpty());
