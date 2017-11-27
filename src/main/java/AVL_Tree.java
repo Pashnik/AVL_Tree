@@ -12,7 +12,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
      */
 
     private static class Node<T> {
-        final T value;
+        T value;
         int balance;
         Node<T> left = null;
         Node<T> right = null;
@@ -77,12 +77,14 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             while (current != null) {
                 setBalance(current);
                 if (Math.abs(current.balance) > 1) {
-                    restructuring(current, newNode);
+                    addRestructuring(current, newNode);
                 }
                 current = getParent(current);
             }
+
         }
         size++;
+        root = root;
         return true;
     }
 
@@ -117,14 +119,14 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     Перестройка дерева
      */
 
-    private void restructuring(Node<T> node, Node<T> addedNode) {
+    private void addRestructuring(Node<T> node, Node<T> addedNode) {
         Node<T> rightNode = node.right;
         Node<T> leftNode = node.left;
         SubTreesAndSons son = SubTreesAndSons.LEFT_SON;
         SubTreesAndSons subTree = SubTreesAndSons.LEFT_SUBTREE;
 
         /*
-        Определяем сына и поодерево
+        Определяем сына и поддерево
          */
 
         if (node.value.compareTo(addedNode.value) < 0) {
@@ -212,12 +214,89 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
-    public boolean remove(Object o) {
-        /*
-        TODO()
-         */
-        return false;
+    private void removeRestructuring(Node<T> node) {
+        Node<T> rightNode = node.right;
+        Node<T> leftNode = node.left;
+        if (node.balance == 2) {
+            if (rightNode.balance == 0 || rightNode.balance == 1)
+                rotate_L(node);
+            else rotate_RL(node);
+        } else {
+            if (node.balance == -2) {
+                if (leftNode.balance == -1 || leftNode.balance == 0)
+                    rotate_R(node);
+                else rotate_LR(node);
+            }
+        }
     }
+
+    public boolean remove(Object o) {
+        @SuppressWarnings("unchecked")
+        Node<T> currentNode = find(root, (T) o);
+        if (o != currentNode.value)
+            return false;
+        Node<T> parentNode = getParent(currentNode);
+        boolean isHeader = false;
+        if (parentNode == null)
+            isHeader = true;
+        /*
+         Когда currentNode лист
+         */
+
+        if (currentNode.left == currentNode.right && isHeader) {
+            root = null;
+        } else if (currentNode.left == currentNode.right) {
+            if (parentNode.value.compareTo(currentNode.value) > 0)
+                parentNode.left = null;
+            else
+                parentNode.right = null;
+        } else {
+
+        /*
+        Обычные сучаи
+         */
+            if (currentNode.right == null && isHeader || currentNode.left == null && isHeader) {
+                root = currentNode.right == null ? currentNode.left : currentNode.right;
+            } else if (currentNode.right == null) {
+                if (parentNode.value.compareTo(currentNode.value) > 0)
+                    parentNode.left = currentNode.left;
+                else
+                    parentNode.right = currentNode.left;
+            } else if (currentNode.left == null) {
+                if (parentNode.value.compareTo(currentNode.value) > 0)
+                    parentNode.left = currentNode.right;
+                else
+                    parentNode.right = currentNode.right;
+            } else {
+                Node<T> node = getParent(minNode(currentNode.right));
+                Node<T> minLeft = minNode(currentNode.right);
+                if (node.value.compareTo(minLeft.value) > 0)
+                    node.left = minLeft.right;
+                else
+                    node.right = minLeft.right;
+                currentNode.value = minLeft.value;
+            }
+        }
+
+        Node<T> current = parentNode;
+        while (current != null) {
+            setBalance(current);
+            if (Math.abs(current.balance) > 1) {
+                removeRestructuring(current);
+            }
+            current = getParent(current);
+        }
+        size--;
+        root = root;
+        return true;
+    }
+
+    private Node<T> minNode(Node<T> startNode) {
+        if (startNode.left == null)
+            return startNode;
+        else return minNode(startNode.left);
+    }
+
 
     private Node<T> find(T value) {
         if (root == null) return null;

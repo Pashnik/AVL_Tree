@@ -108,4 +108,14 @@ public class AVL_Tests {
         a.add("A");
         assertFalse(a.isEmpty());
     }
+
+    @Test
+    public void remove() {
+        List list = Arrays.asList(100, 60, 120, 50, 70, 110, 130);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list);
+        avl_tree.remove(130);
+        assertFalse(avl_tree.contains(130));
+        assertTrue(avl_tree.isAVL());
+    }
 }
