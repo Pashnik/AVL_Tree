@@ -135,7 +135,7 @@ public class AVL_Tests {
         avl_tree.clear();
         assertFalse(avl_tree.containsAll(list));
         assertTrue(avl_tree.containsAll(list1));
-        List<Integer> list2 = Arrays.asList(1,2,3);
+        List<Integer> list2 = Arrays.asList(1, 2, 3);
         avl_tree.addAll(list2);
         assertTrue(avl_tree.containsAll(list2));
         assertTrue(avl_tree.isAVL());
