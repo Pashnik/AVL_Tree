@@ -229,6 +229,15 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
+    /**
+     * Рассматриваем два случая: 1) ЛЕВОЕ поддерево стало короче ПРАВОГО на 2 уровня
+     * 2) ПРАВОЕ поддерево стало короче ЛЕВОГО на 2 уровня
+     * В первом случае: а) У ПРАВОГО сына высота ПРАВОГО поддерева >= высоте ЛЕВОГО поддерева
+     * б) У ПРАВОГО сына высота ПРАВОГО поддерева < высоты ЛЕВОГО поддерева
+     * Во втором случае: а) У ЛЕВОГО сына высота ЛЕВОГО поддерева >= высоте ПРАВОГО
+     * б) у ЛЕВОГО сына высота ЛЕВОГО поддерева < высоты ПРАВОГО поддерева
+     */
+
     public boolean remove(Object o) {
         @SuppressWarnings("unchecked")
         Node<T> currentNode = find(root, (T) o);
@@ -289,6 +298,10 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return true;
     }
 
+    /*
+    Нахождение минимального элемента в поддереве с корнем startNode
+     */
+
     private Node<T> minNode(Node<T> startNode) {
         if (startNode.left == null)
             return startNode;
@@ -315,7 +328,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
     }
 
-    public boolean isAVL() {
+    boolean isAVL() {
         return root != null && checkBalance(root) && checkInvariant(root);
     }
 
@@ -367,9 +380,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return null;
     }
 
-    /*
-    Возвращение минимального элемента
-     */
     public T first() {
         Node<T> node = root;
         if (node == null) throw new NoSuchElementException();
@@ -378,9 +388,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return node.value;
     }
 
-    /*
-   Возвращение максимального элемента
-    */
     public T last() {
         Node<T> node = root;
         if (node == null) throw new NoSuchElementException();
