@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,11 +112,44 @@ public class AVL_Tests {
 
     @Test
     public void remove() {
-        List list = Arrays.asList(100, 60, 120, 50, 70, 110, 130);
+        List removeList = Arrays.asList(100, 120, 90, 115, 130);
+        List addList = Arrays.asList(100, 80, 120, 70, 90, 115, 130, 60, 110, 117, 125, 140, 105, 118, 150);
+        List trueList = Arrays.asList(80, 70, 110, 117, 125, 105, 140, 118, 150);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(addList);
+        avl_tree.remove(60);
+        assertFalse(avl_tree.contains(60));
+        assertTrue(avl_tree.isAVL());
+        avl_tree.removeAll(removeList);
+        assertTrue(avl_tree.containsAll(trueList));
+        assertTrue(avl_tree.isAVL());
+        assertFalse(avl_tree.containsAll(removeList));
+    }
+
+    @Test
+    public void clear() {
+        List<Integer> list1 = new ArrayList<>();
+        List list = Arrays.asList(120, 2, 4, 5, 6, 7, 1, 110);
         AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
         avl_tree.addAll(list);
-        avl_tree.remove(130);
-        assertFalse(avl_tree.contains(130));
+        avl_tree.clear();
+        assertFalse(avl_tree.containsAll(list));
+        assertTrue(avl_tree.containsAll(list1));
+        List<Integer> list2 = Arrays.asList(1,2,3);
+        avl_tree.addAll(list2);
+        assertTrue(avl_tree.containsAll(list2));
         assertTrue(avl_tree.isAVL());
+    }
+
+    @Test
+    public void retainAll() {
+        List list = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List secondList = Arrays.asList(2, 3, 4, 5);
+        List list1 = Arrays.asList(1, 6, 7);
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        avl_tree.addAll(list);
+        avl_tree.retainAll(secondList);
+        assertTrue(avl_tree.containsAll(secondList));
+        assertFalse(avl_tree.containsAll(list1));
     }
 }

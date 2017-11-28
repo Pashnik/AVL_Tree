@@ -84,7 +84,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
         }
         size++;
-        root = root;
         return true;
     }
 
@@ -233,7 +232,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     public boolean remove(Object o) {
         @SuppressWarnings("unchecked")
         Node<T> currentNode = find(root, (T) o);
-        if (o != currentNode.value)
+        if (!o.equals(currentNode.value))
             return false;
         Node<T> parentNode = getParent(currentNode);
         boolean isHeader = false;
@@ -287,7 +286,6 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             current = getParent(current);
         }
         size--;
-        root = root;
         return true;
     }
 
@@ -466,21 +464,30 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     public boolean addAll(Collection<? extends T> c) {
-        for (T t : c) {
+        for (T t : c)
             if (!add(t)) return false;
-        }
         return true;
     }
 
     public boolean retainAll(Collection<?> c) {
-        return false;
+        List<T> list = new ArrayList<>();
+        for (Object o : c) {
+            if (contains(o))
+                list.add((T) o);
+        }
+        clear();
+        addAll(list);
+        return true;
     }
 
     public boolean removeAll(Collection<?> c) {
-        return false;
+        for (Object o : c)
+            if (!remove(o)) return false;
+        return true;
     }
 
     public void clear() {
+        root = null;
     }
 
     public Comparator<? super T> comparator() {
