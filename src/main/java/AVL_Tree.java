@@ -411,7 +411,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return findNode != null && t.compareTo(findNode.value) == 0;
     }
 
-    public class AVLTreeIterator implements Iterator<T> {
+   public class AVLTreeIterator implements Iterator<T> {
         private Stack<Node<T>> treeNodes;
         private Node<T> node;
         private Node<T> currentNode;
@@ -448,8 +448,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             return stackNode.value;
         }
 
-        public void remove() {
-        }
+        public void remove() { }
     }
 
     public Iterator<T> iterator() {

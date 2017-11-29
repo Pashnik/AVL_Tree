@@ -1,8 +1,6 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -112,6 +110,104 @@ public class AVL_Tests {
 
     @Test
     public void remove() {
+
+        /*
+                  Binary Tree Visualisation
+
+                              60
+                            28   80
+                             59 68
+                            40    70
+                          30  45    75
+                                  74  76
+        */
+
+
+        AVL_Tree<Integer> binaryTree = new AVL_Tree<>();
+        binaryTree.addAll(Arrays.asList(60, 28, 59, 40, 30, 45, 80, 68, 70, 75, 74, 76));
+
+        binaryTree.remove(28);
+        assertTrue(binaryTree.isAVL());
+        assertTrue(!binaryTree.contains(28));
+
+        assertEquals(11, binaryTree.size());
+
+        binaryTree.remove(74);
+        assertTrue(binaryTree.isAVL());
+        assertTrue(!binaryTree.contains(74));
+
+        assertEquals(10, binaryTree.size());
+
+
+        binaryTree.remove(60);
+        assertTrue(binaryTree.isAVL());
+        assertTrue(!binaryTree.contains(60));
+
+        assertEquals(9, binaryTree.size());
+
+
+        binaryTree.remove(80);
+        assertTrue(!binaryTree.contains(80));
+        assertTrue(binaryTree.isAVL());
+
+        assertEquals(8, binaryTree.size());
+
+
+        binaryTree.remove(40);
+        assertTrue(binaryTree.isAVL());
+        assertTrue(!binaryTree.contains(40));
+
+        assertEquals(7, binaryTree.size());
+
+        assertTrue(!binaryTree.remove(1));
+
+        assertEquals(76, binaryTree.last().intValue());
+
+        /*
+        Корневые тесты
+         */
+
+        AVL_Tree<Integer> treeWithoutChildren = new AVL_Tree<>();
+        treeWithoutChildren.add(1);
+        treeWithoutChildren.remove(1);
+        assertEquals(0, treeWithoutChildren.size());
+        assertFalse(treeWithoutChildren.isAVL());
+        assertTrue(!treeWithoutChildren.contains(1));
+
+        AVL_Tree<Integer> treeWithOneChild = new AVL_Tree<>();
+        treeWithOneChild.add(5);
+        treeWithOneChild.add(1);
+        treeWithOneChild.remove(5);
+        assertEquals(1, treeWithOneChild.size());
+        assertTrue(treeWithOneChild.isAVL());
+        assertTrue(!treeWithOneChild.contains(5));
+
+
+        AVL_Tree<Integer> treeWithTwoChildren = new AVL_Tree<>();
+        treeWithTwoChildren.addAll(Arrays.asList(15, 8, 20, 19, 21, 7, 9));
+
+        treeWithTwoChildren.remove(15);
+        assertEquals(6, treeWithTwoChildren.size());
+        assertTrue(treeWithTwoChildren.isAVL());
+        assertTrue(!treeWithTwoChildren.contains(15));
+
+
+        AVL_Tree<Integer> secondTree = new AVL_Tree<>();
+        secondTree.addAll(Arrays.asList(80, 60, 100, 50, 40, 65, 62, 68, 66, 90, 95, 110, 105, 120));
+
+        secondTree.remove(65);
+        assertTrue(secondTree.isAVL());
+        assertFalse(secondTree.contains(65));
+
+        secondTree.remove(100);
+        assertTrue(secondTree.isAVL());
+        assertFalse(secondTree.contains(100));
+
+        secondTree.remove(80);
+        assertTrue(secondTree.isAVL());
+        assertFalse(secondTree.contains(80));
+
+
         List removeList = Arrays.asList(100, 120, 90, 115, 130);
         List addList = Arrays.asList(100, 80, 120, 70, 90, 115, 130, 60, 110, 117, 125, 140, 105, 118, 150);
         List trueList = Arrays.asList(80, 70, 110, 117, 125, 105, 140, 118, 150);
@@ -151,5 +247,22 @@ public class AVL_Tests {
         avl_tree.retainAll(secondList);
         assertTrue(avl_tree.containsAll(secondList));
         assertFalse(avl_tree.containsAll(list1));
+    }
+
+    @Test
+    public void iteratorTests() {
+        List<Integer> listForBinaryTree = Arrays.asList(60, 50, 45, 40, 55, 51, 80, 75, 77, 85, 82, 90);
+        List<Integer> iteratorList = new ArrayList<>();
+        AVL_Tree<Integer> binaryTree = new AVL_Tree<>();
+
+        binaryTree.addAll(listForBinaryTree);
+        Collections.sort(listForBinaryTree);
+
+        Iterator<Integer> iterator = binaryTree.iterator();
+
+        while (iterator.hasNext()) {
+            iteratorList.add(iterator.next());
+        }
+        assertEquals(listForBinaryTree, iteratorList);
     }
 }
