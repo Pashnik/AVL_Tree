@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.util.*;
 
 public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
@@ -301,7 +299,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     /*
-    Нахождение минимального элемента в поддереве с корнем startNode
+    Нахождение минимального элемента
      */
 
     private Node<T> minNode(Node<T> startNode) {
@@ -370,18 +368,22 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
 
+    @Override
     public SortedSet<T> subSet(T fromElement, T toElement) {
         return null;
     }
 
+    @Override
     public SortedSet<T> headSet(T toElement) {
         return null;
     }
 
+    @Override
     public SortedSet<T> tailSet(T fromElement) {
         return null;
     }
 
+    @Override
     public T first() {
         Node<T> node = root;
         if (node == null) throw new NoSuchElementException();
@@ -390,6 +392,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return node.value;
     }
 
+    @Override
     public T last() {
         Node<T> node = root;
         if (node == null) throw new NoSuchElementException();
@@ -398,14 +401,17 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return node.value;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public boolean isEmpty() {
         return root == null;
     }
 
+    @Override
     public boolean contains(Object o) {
         @SuppressWarnings("unchecked")
         T t = (T) o;
@@ -413,7 +419,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return findNode != null && t.compareTo(findNode.value) == 0;
     }
 
-   public class AVLTreeIterator implements Iterator<T> {
+    public class AVLTreeIterator implements Iterator<T> {
         private Stack<Node<T>> treeNodes;
         private Node<T> node;
         private Node<T> currentNode;
@@ -440,43 +446,54 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             return stackNode;
         }
 
+        @Override
         public boolean hasNext() {
             return !treeNodes.isEmpty();
         }
 
+        @Override
         public T next() {
             findNext();
             if (stackNode == null) throw new NoSuchElementException();
             return stackNode.value;
         }
 
-        public void remove() { /*TODO()*/}
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new AVLTreeIterator();
     }
 
+    @Override
     public Object[] toArray() {
         return new Object[0];
     }
 
+    @Override
     public <T1> T1[] toArray(T1[] a) {
         return null;
     }
 
+    @Override
     public boolean containsAll(Collection<?> c) {
         for (Object o : c)
             if (!contains(o)) return false;
         return true;
     }
 
+    @Override
     public boolean addAll(Collection<? extends T> c) {
         for (T t : c)
             if (!add(t)) return false;
         return true;
     }
 
+    @Override
     public boolean retainAll(Collection<?> c) {
         List<T> list = new ArrayList<>();
         for (Object o : c) {
@@ -488,16 +505,19 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         return true;
     }
 
+    @Override
     public boolean removeAll(Collection<?> c) {
         for (Object o : c)
             if (!remove(o)) return false;
         return true;
     }
 
+    @Override
     public void clear() {
         root = null;
     }
 
+    @Override
     public Comparator<? super T> comparator() {
         return null;
     }
