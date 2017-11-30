@@ -55,6 +55,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     Добавление узла в дерево
      */
 
+    @Override
     public boolean add(T t) {
         Node<T> findNode = find(t);
         Node<T> current;
@@ -238,6 +239,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
      * б) у ЛЕВОГО сына высота ЛЕВОГО поддерева < высоты ПРАВОГО поддерева
      */
 
+    @Override
     public boolean remove(Object o) {
         @SuppressWarnings("unchecked")
         Node<T> currentNode = find(root, (T) o);
