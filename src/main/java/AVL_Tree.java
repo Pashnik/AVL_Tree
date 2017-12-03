@@ -423,29 +423,31 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
     public class AVLTreeIterator implements Iterator<T> {
         private Stack<Node<T>> treeNodes;
-        private Node<T> node;
-        private Node<T> currentNode;
         private Node<T> stackNode;
 
         private AVLTreeIterator() {
             treeNodes = new Stack<>();
-            node = root;
-            while (node != null) {
-                treeNodes.push(node);
-                node = node.left;
-            }
+            stackRebuild();
         }
 
         private Node<T> findNext() {
             stackNode = treeNodes.pop();
             if (stackNode.right != null) {
-                currentNode = stackNode.right;
+                Node<T> currentNode = stackNode.right;
                 while (currentNode != null) {
                     treeNodes.push(currentNode);
                     currentNode = currentNode.left;
                 }
             }
             return stackNode;
+        }
+
+        private void stackRebuild() {
+            Node<T> node = root;
+            while (node != null) {
+                if (treeNodes.search(node) == -1) treeNodes.push(node);
+                node = node.left;
+            }
         }
 
         @Override
@@ -462,7 +464,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            /*
+            TODO();
+             */
         }
     }
 
@@ -473,12 +477,34 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] array = new Object[size];
+        Iterator<T> iterator = this.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            array[i] = iterator.next();
+            i++;
+        }
+        return array;
     }
 
     @Override
     public <T1> T1[] toArray(T1[] a) {
-        return null;
+        Iterator<T> iterator = this.iterator();
+        int i = 0;
+        if (a.length >= size) {
+            while (iterator.hasNext()) {
+                a[i] = (T1) iterator.next();
+                i++;
+            }
+            return a;
+        } else {
+            Object[] array = new Object[size];
+            while (iterator.hasNext()) {
+                array[i] = iterator.next();
+                i++;
+            }
+            return (T1[]) array;
+        }
     }
 
     @Override
