@@ -266,9 +266,9 @@ public class AVL_Tests {
         assertEquals(listForBinaryTree, iteratorList);
     }
 
-   /* @Test
+    @Test
     public void iteratorRemove() {
-       List list = Arrays.asList(10, 5, 15, 2, 6, 11, 16);
+        List list = Arrays.asList(10, 5, 15, 2, 6, 11, 16);
         AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
         avl_tree.addAll(list);
         Iterator<Integer> iterator = avl_tree.iterator();
@@ -278,17 +278,19 @@ public class AVL_Tests {
         }
         assertTrue(avl_tree.isEmpty());
 
+
         List list1 = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         AVL_Tree<Integer> avl_tree1 = new AVL_Tree<>();
         avl_tree1.addAll(list1);
-        Iterator<Integer> iterator1 = avl_tree1.iterator();
 
-        while (iterator1.hasNext()) {
-            int i = iterator1.next();
-            if (i % 2 != 0) iterator1.remove();
-        }
+        avl_tree1.removeIf(i -> i % 2 != 0);
+
+        Integer[] array = avl_tree1.toArray(new Integer[10]);
+        Integer[] trueArray = {2, 4, 6, 8, 10};
+
+        assertTrue(Arrays.equals(array, trueArray));
     }
-    */
+
 
     @Test
     public void toArray() {

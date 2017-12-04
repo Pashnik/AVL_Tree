@@ -450,6 +450,11 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
             }
         }
 
+        private void stackReset() {
+            while (!treeNodes.empty())
+                treeNodes.pop();
+        }
+
         @Override
         public boolean hasNext() {
             return !treeNodes.isEmpty();
@@ -464,9 +469,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
         @Override
         public void remove() {
-            /*
-            TODO();
-             */
+            AVL_Tree.this.remove(stackNode.value);
+            stackReset();
+            stackRebuild();
         }
     }
 
