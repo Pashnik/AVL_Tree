@@ -488,23 +488,18 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T1> T1[] toArray(T1[] a) {
+        T1[] array = a.length >= size ? a :
+                (T1[]) java.lang.reflect.Array
+                        .newInstance(a.getClass().getComponentType(), size);
         Iterator<T> iterator = this.iterator();
         int i = 0;
-        if (a.length >= size) {
-            while (iterator.hasNext()) {
-                a[i] = (T1) iterator.next();
-                i++;
-            }
-            return a;
-        } else {
-            Object[] array = new Object[size];
-            while (iterator.hasNext()) {
-                array[i] = iterator.next();
-                i++;
-            }
-            return (T1[]) array;
+        while (iterator.hasNext()) {
+            array[i] = (T1) iterator.next();
+            i++;
         }
+        return array;
     }
 
     @Override
@@ -522,6 +517,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean retainAll(Collection<?> c) {
         List<T> list = new ArrayList<>();
         for (Object o : c) {

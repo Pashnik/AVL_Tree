@@ -306,8 +306,10 @@ public class AVL_Tests {
         List list = Arrays.asList(1, 2, 7, 5, 6);
         avl_tree.addAll(list);
         Integer[] a = {1, 2, 5, 6, 7};
-        Integer[] b = avl_tree.toArray(new Integer[1]);
+        Integer[] b = avl_tree.toArray(new Integer[5]);
         assertTrue(Arrays.equals(a, b));
+        Integer[] c = avl_tree.toArray(new Integer[1]);
+        assertTrue(Arrays.equals(a, c));
     }
 
 }
