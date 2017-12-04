@@ -494,6 +494,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
                 (T1[]) java.lang.reflect.Array
                         .newInstance(a.getClass().getComponentType(), size);
         Iterator<T> iterator = this.iterator();
+        if (a.length > size) array = Arrays.copyOf(array, size);
         int i = 0;
         while (iterator.hasNext()) {
             array[i] = (T1) iterator.next();
