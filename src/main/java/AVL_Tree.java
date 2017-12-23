@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
     private Node<T> root = null;
@@ -122,32 +123,14 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     private void addRestructuring(Node<T> node, Node<T> addedNode) {
         Node<T> rightNode = node.right;
         Node<T> leftNode = node.left;
-        SubTreesAndSons son = SubTreesAndSons.LEFT_SON;
-        SubTreesAndSons subTree = SubTreesAndSons.LEFT_SUBTREE;
-
-        /*
-        Определяем сына и поддерево
-         */
-
         if (node.value.compareTo(addedNode.value) < 0) {
-            son = SubTreesAndSons.RIGHT_SON;
             if (rightNode.value.compareTo(addedNode.value) < 0)
-                subTree = SubTreesAndSons.RIGHT_SUBTREE;
+                rotate_L(node);
+            else rotate_RL(node);
         } else {
             if (leftNode.value.compareTo(addedNode.value) < 0)
-                subTree = SubTreesAndSons.RIGHT_SUBTREE;
-        }
-
-        /*
-        Определяем случай
-         */
-
-        if (son == SubTreesAndSons.LEFT_SON) {
-            if (subTree == SubTreesAndSons.LEFT_SUBTREE) rotate_R(node);
-            else rotate_LR(node);
-        } else {
-            if (subTree == SubTreesAndSons.RIGHT_SUBTREE) rotate_L(node);
-            else rotate_RL(node);
+                rotate_LR(node);
+            else rotate_R(node);
         }
     }
 
@@ -188,6 +171,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         } else {
             root = right_Node;
         }
+
         setBalance(node);
         setBalance(right_Node);
     }
@@ -451,8 +435,7 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
         }
 
         private void stackReset() {
-            while (!treeNodes.empty())
-                treeNodes.pop();
+            treeNodes.clear();
         }
 
         @Override
@@ -483,10 +466,9 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     @Override
     public Object[] toArray() {
         Object[] array = new Object[size];
-        Iterator<T> iterator = this.iterator();
         int i = 0;
-        while (iterator.hasNext()) {
-            array[i] = iterator.next();
+        for (T e : this) {
+            array[i] = e;
             i++;
         }
         return array;
@@ -495,15 +477,16 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
     @Override
     @SuppressWarnings("unchecked")
     public <T1> T1[] toArray(T1[] a) {
-        T1[] array = a.length >= size ? a :
-                (T1[]) java.lang.reflect.Array
-                        .newInstance(a.getClass().getComponentType(), size);
-        Iterator<T> iterator = this.iterator();
-        if (a.length > size) array = Arrays.copyOf(array, size);
+        T1[] array = a.length >= size ? a : (T1[]) java.lang.reflect.Array
+                .newInstance(a.getClass().getComponentType(), size);
         int i = 0;
-        while (iterator.hasNext()) {
-            array[i] = (T1) iterator.next();
+        for (T value : this) {
+            array[i] = (T1) value;
             i++;
+        }
+        if (a.length > size) {
+            for (int j = size; j < array.length; j++)
+                array[j] = null;
         }
         return array;
     }
@@ -517,9 +500,12 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        for (T t : c)
-            if (!add(t)) return false;
-        return true;
+        boolean a = false;
+        for (T t : c) {
+            add(t);
+            a = true;
+        }
+        return a;
     }
 
     @Override
@@ -531,16 +517,18 @@ public class AVL_Tree<T extends Comparable<T>> implements SortedSet<T> {
                 list.add((T) o);
         }
         clear();
-        addAll(list);
-        return true;
+        return addAll(list);
     }
 
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        for (Object o : c)
-            if (!remove(o)) return false;
-        return true;
+        boolean a = false;
+        for (Object o : c) {
+            remove(o);
+            a = true;
+        }
+        return a;
     }
 
     @Override

@@ -10,6 +10,13 @@ public class AVL_Tests {
 
     @Test
     public void add_rotate_R() {
+
+        List lis0 = Arrays.asList(20, 15, 30, 10, 18, 29, 35, 9, 11, 17, 19, 8);
+        AVL_Tree<Integer> avl_treeA = new AVL_Tree<>();
+        avl_treeA.addAll(lis0);
+        assertTrue(avl_treeA.isAVL());
+        assertTrue(avl_treeA.containsAll(lis0));
+
         List list = Arrays.asList(8, 5, 12, 6, 4, 11, 14, 3, 2);
         AVL_Tree<Integer> integerAVL_tree = new AVL_Tree<>();
         integerAVL_tree.addAll(list);
@@ -110,18 +117,6 @@ public class AVL_Tests {
 
     @Test
     public void remove() {
-
-        /*
-                  Binary Tree Visualisation
-
-                              60
-                            28   80
-                             59 68
-                            40    70
-                          30  45    75
-                                  74  76
-        */
-
 
         AVL_Tree<Integer> binaryTree = new AVL_Tree<>();
         binaryTree.addAll(Arrays.asList(60, 28, 59, 40, 30, 45, 80, 68, 70, 75, 74, 76));
@@ -285,7 +280,7 @@ public class AVL_Tests {
 
         avl_tree1.removeIf(i -> i % 2 != 0);
 
-        Integer[] array = avl_tree1.toArray(new Integer[10]);
+        Integer[] array = avl_tree1.toArray(new Integer[5]);
         Integer[] trueArray = {2, 4, 6, 8, 10};
 
         assertTrue(Arrays.equals(array, trueArray));
@@ -308,12 +303,15 @@ public class AVL_Tests {
         List list = Arrays.asList(1, 2, 7, 5, 6);
         avl_tree.addAll(list);
         Integer[] a = {1, 2, 5, 6, 7};
-        Integer[] b = avl_tree.toArray(new Integer[10]);
+        Integer[] b = avl_tree.toArray(new Integer[5]);
         assertTrue(Arrays.equals(a, b));
-        Integer[] c = avl_tree.toArray(new Integer[1]);
-        assertTrue(Arrays.equals(a, c));
-        Integer[] d = avl_tree.toArray(new Integer[5]);
-        assertTrue(Arrays.equals(d, a));
+    }
+
+    @Test
+    public void testA() {
+        AVL_Tree<Integer> avl_tree = new AVL_Tree<>();
+        List list = Arrays.asList(1, 2, 3, 4);
+        avl_tree.addAll(list);
     }
 
 }
